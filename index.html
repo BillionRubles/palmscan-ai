@@ -2,122 +2,268 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<title>PalmScan AI</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>PalmScan.ai — AI Palm Reading</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Nunito:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:black;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-overflow:hidden;
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:#00ff88;--green2:#00e5b8;--bg:#050a0e;--bg2:#071016;
+  --text:#fff;--dim:rgba(255,255,255,.58);--line:rgba(0,255,136,.18);
+  --glow:rgba(0,255,136,.34);--skin:#d39a73;--skin2:#f1c3a2;
 }
-
-.bg{
-position:absolute;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at center,
-rgba(0,255,200,0.25),
-transparent 60%);
-filter:blur(40px);
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;overflow-x:hidden}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:
+  radial-gradient(circle at 50% 18%,rgba(0,255,136,.16),transparent 28%),
+  radial-gradient(circle at 90% 35%,rgba(0,229,184,.08),transparent 30%),
+  #050a0e;
 }
-
-.container{
-position:relative;
-z-index:2;
-text-align:center;
-padding:20px;
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;height:82px;
+  display:flex;align-items:center;justify-content:space-between;padding:16px 22px;
+  background:rgba(5,10,14,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.05)
 }
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:white}
+.logo-icon{
+  width:44px;height:44px;border:1.5px solid var(--green);border-radius:13px;
+  display:grid;place-items:center;box-shadow:0 0 22px rgba(0,255,136,.28)
+}
+.logo-icon svg{width:24px;height:24px}
+.logo-text{font-weight:900;font-size:23px;letter-spacing:-.04em}.logo-text span{color:var(--green)}
+.menu{width:46px;height:46px;border:1.5px solid rgba(0,255,136,.35);border-radius:14px;background:transparent;display:grid;place-items:center}
+.menu i,.menu i::before,.menu i::after{display:block;width:20px;height:2px;background:white;border-radius:4px;content:""}
+.menu i::before{transform:translateY(-7px)}.menu i::after{transform:translateY(5px)}
 
+.hero{min-height:100svh;padding:116px 22px 34px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
+.stars{position:absolute;inset:0;pointer-events:none;background:
+ radial-gradient(1px 1px at 16% 22%,rgba(255,255,255,.55),transparent),
+ radial-gradient(1px 1px at 84% 18%,rgba(255,255,255,.44),transparent),
+ radial-gradient(1px 1px at 76% 62%,rgba(0,255,136,.5),transparent),
+ radial-gradient(1px 1px at 28% 78%,rgba(255,255,255,.38),transparent),
+ radial-gradient(1.5px 1.5px at 58% 42%,rgba(255,255,255,.5),transparent)
+}
+.tag{
+  display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(0,255,136,.28);
+  border-radius:999px;padding:8px 18px;color:var(--dim);font-size:12px;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px;position:relative;z-index:2
+}
+.tag svg{width:15px;color:var(--green)}
+h1,.section h2,.cta h2{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em}
 h1{
-font-size:54px;
-margin:0;
-letter-spacing:-2px;
+  font-size:clamp(46px,13vw,72px);line-height:.98;text-align:center;position:relative;z-index:2;
+  text-shadow:0 3px 22px rgba(0,0,0,.55)
 }
-
-p{
-font-size:20px;
-opacity:0.8;
-margin-top:12px;
+.accent{color:var(--green);text-shadow:0 0 38px var(--glow)}
+.sub{margin-top:14px;color:var(--dim);font-size:17px;text-align:center}.sub strong{color:var(--green)}
+.hand-area{position:relative;width:100%;max-width:420px;min-height:390px;display:grid;place-items:center;z-index:2}
+.ring,.ring2{position:absolute;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.ring{width:350px;height:350px;border:1px dashed rgba(0,255,136,.22);animation:spin 32s linear infinite}
+.ring2{width:392px;height:392px;border:1px solid rgba(0,255,136,.07)}
+.glow{position:absolute;width:290px;height:290px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,.17),transparent 70%);animation:pulse 3s ease-in-out infinite}
+.hand{position:relative;width:255px;filter:drop-shadow(0 0 24px rgba(0,255,136,.18));animation:float 5s ease-in-out infinite}
+.scanline{position:absolute;left:-24px;right:-24px;height:2px;top:35%;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+  box-shadow:0 0 18px 4px rgba(0,255,136,.65);animation:scan 2.7s infinite;z-index:4
 }
-
-.button{
-margin-top:30px;
-display:inline-block;
-padding:18px 34px;
-border-radius:16px;
-background:#00FFC2;
-color:black;
-font-weight:bold;
-font-size:20px;
-text-decoration:none;
-box-shadow:0 0 30px rgba(0,255,194,0.5);
+.br{position:absolute;width:22px;height:22px;border-color:var(--green);border-style:solid;opacity:.72;z-index:5}
+.tl{top:10px;left:-8px;border-width:2px 0 0 2px}.tr{top:10px;right:-8px;border-width:2px 2px 0 0}
+.bl{bottom:10px;left:-8px;border-width:0 0 2px 2px}.br2{bottom:10px;right:-8px;border-width:0 2px 2px 0}
+.astro{position:absolute;width:38px;height:38px;border:1px solid rgba(0,255,136,.28);border-radius:50%;display:grid;place-items:center;color:rgba(0,255,136,.75);background:rgba(5,10,14,.72);font-size:16px;z-index:3}
+.a1{top:80px;left:0}.a2{top:180px;left:-10px}.a3{bottom:88px;left:8px}.a4{top:95px;right:0}.a5{top:205px;right:-10px}.a6{bottom:95px;right:2px}
+.desc{text-align:center;color:var(--dim);font-size:16px;line-height:1.7;margin:-6px auto 22px;max-width:350px;position:relative;z-index:2}
+.btn-wrap{width:100%;max-width:390px;position:relative;z-index:2}
+.scan-btn{
+  width:100%;border:0;border-radius:18px;padding:20px 24px;cursor:pointer;
+  background:linear-gradient(135deg,#00d877,#00ff88 48%,#00e5c0);
+  color:#00120a;display:flex;align-items:center;justify-content:center;gap:14px;
+  box-shadow:0 12px 42px rgba(0,255,136,.34);overflow:hidden;position:relative
 }
+.scan-btn::after{content:"";position:absolute;top:0;left:-90%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.26),transparent);animation:shine 2.6s infinite}
+.cam-icon{width:32px;height:32px;border-radius:10px;background:rgba(0,0,0,.18);display:grid;place-items:center;flex:0 0 auto}
+.btn-main{font-family:'Anton',sans-serif;font-size:28px;letter-spacing:.08em;line-height:1;text-transform:uppercase}
+.btn-sub{font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:rgba(0,0,0,.55);display:block;text-align:left;margin-top:3px}
+.social{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:14px;color:var(--dim);font-size:14px}
+.faces{display:flex}.face{width:34px;height:34px;border-radius:50%;border:2px solid var(--bg);margin-left:-9px;display:grid;place-items:center;font-size:17px}.face:first-child{margin-left:0}
+.f1{background:#ff73ad}.f2{background:#27d8ff}.f3{background:#4cff94}.f4{background:#ffb66b}.f5{background:#b789ff}
+.social strong{color:var(--green)}
+.badges{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.06);border-radius:18px;overflow:hidden;margin-top:22px;width:100%;max-width:390px}
+.badge{background:rgba(255,255,255,.025);padding:15px 6px;text-align:center}.badge svg{width:23px;color:var(--green);margin-bottom:7px}.badge b{display:block;font-size:12px}.badge span{font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.06em}
 
-.scan{
-margin:40px auto;
-width:220px;
-height:220px;
-border-radius:50%;
-border:2px solid rgba(0,255,200,0.5);
-position:relative;
-overflow:hidden;
+.section{padding:68px 22px;border-top:1px solid rgba(255,255,255,.055)}
+.section.alt{background:var(--bg2)}
+.label{display:flex;align-items:center;gap:12px;color:var(--green);font-size:12px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;margin-bottom:16px}
+.label::before{content:"";width:34px;height:2px;background:var(--green);box-shadow:0 0 12px var(--green)}
+.section h2{font-size:clamp(36px,10vw,58px);line-height:1.02;margin-bottom:28px}
+.grid,.stats,.prices{display:grid;gap:12px}.grid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}
+.card,.step,.stat,.price,.review{
+  background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:22px 18px
 }
-
-.line{
-position:absolute;
-width:100%;
-height:4px;
-background:#00FFC2;
-top:0;
-animation:scan 3s linear infinite;
-box-shadow:0 0 20px #00FFC2;
-}
-
-@keyframes scan{
-0%{top:0;}
-100%{top:100%;}
-}
-
-.small{
-margin-top:20px;
-font-size:14px;
-opacity:0.5;
+.step{display:flex;gap:18px;margin-bottom:10px}.num{font-family:'Anton';font-size:42px;color:rgba(0,255,136,.22);min-width:52px}
+.step h3,.card h3{font-size:17px;margin-bottom:10px}.step p,.card p,.review p,.price li{color:var(--dim);line-height:1.7;font-size:15px}
+.card .emoji{font-size:30px;margin-bottom:18px;display:block}.card h3{color:var(--green)}
+.stat b{font-family:'Anton';font-size:44px;color:var(--green);font-weight:400;text-shadow:0 0 18px var(--glow)}.stat span{display:block;color:var(--dim);font-weight:800}
+.reviews{display:grid;gap:14px}.stars{color:#fbbf24;letter-spacing:2px;margin-bottom:14px}.user{color:var(--green);font-size:12px;font-weight:900;letter-spacing:.12em;margin-top:14px}
+.price{position:relative;overflow:hidden}.price.featured{border-color:rgba(0,255,136,.45);background:rgba(0,255,136,.045)}
+.price.featured::before{content:"MOST POPULAR";position:absolute;right:-34px;top:20px;transform:rotate(45deg);background:var(--green);color:#00120a;font-size:9px;font-weight:900;letter-spacing:.14em;padding:5px 40px}
+.tier{font-size:13px;font-weight:900;color:var(--dim);letter-spacing:.22em;text-transform:uppercase}.amount{font-family:'Anton';font-size:58px;margin:12px 0}.amount small{font-family:'Nunito';font-size:15px;color:var(--dim)}
+.price ul{list-style:none;margin:18px 0}.price li{border-bottom:1px solid rgba(255,255,255,.055);padding:10px 0}.price li::before{content:"›";color:var(--green);font-size:24px;margin-right:12px}
+.price a,.small-btn{display:block;text-align:center;text-decoration:none;border-radius:14px;padding:15px;font-weight:900;color:var(--green);border:1.5px solid rgba(0,255,136,.38)}
+.price.featured a{background:linear-gradient(135deg,#00d877,#00ff88);color:#00120a;box-shadow:0 8px 28px rgba(0,255,136,.26);border:0}
+.cta{padding:72px 22px;text-align:center;background:var(--bg2);border-top:1px solid rgba(255,255,255,.06)}
+.cta h2{font-size:clamp(38px,10vw,58px);line-height:1.05}.cta p{color:var(--dim);font-size:17px;line-height:1.6;margin:18px auto 32px;max-width:380px}
+footer{padding:44px 22px 34px;border-top:1px solid rgba(255,255,255,.06);color:var(--dim)}
+footer p{line-height:1.7;margin:16px 0;max-width:390px}.footgrid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px}
+footer h4{color:var(--green);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}footer li{list-style:none;margin:9px 0}.copy{text-align:center;font-size:11px;color:rgba(255,255,255,.34);border-top:1px solid rgba(255,255,255,.06);padding-top:22px;margin-top:32px}
+.camera-modal{position:fixed;inset:0;background:#020608;z-index:200;display:none;flex-direction:column}
+.camera-modal.active{display:flex}.camera-top{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:rgba(0,0,0,.55);color:white}
+.camera-top b{color:var(--green)}.close{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;border-radius:12px;padding:10px 14px;font-weight:900}
+.camera-view{position:relative;flex:1;display:grid;place-items:center;overflow:hidden}video{width:100%;height:100%;object-fit:cover}.guide{position:absolute;width:min(78vw,360px);aspect-ratio:3/4;border:2px solid rgba(0,255,136,.75);border-radius:38% 38% 32% 32%;box-shadow:0 0 40px rgba(0,255,136,.35)}
+.guide::after{content:"";position:absolute;left:-20px;right:-20px;height:2px;background:var(--green);box-shadow:0 0 20px 4px rgba(0,255,136,.7);animation:scan 2.2s infinite}
+.camera-bottom{padding:18px;background:rgba(0,0,0,.65);text-align:center}.snap{width:100%;max-width:360px;border:0;border-radius:18px;padding:18px;background:linear-gradient(135deg,#00d877,#00ff88);font-weight:900;font-size:16px;letter-spacing:.08em}
+.result{display:none;color:white;text-align:center;padding:28px}.result.active{display:block}.result h2{font-family:'Anton';font-size:42px;color:var(--green);font-weight:400}
+@keyframes scan{0%{top:6%;opacity:0}10%,90%{opacity:1}100%{top:92%;opacity:0}}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.12);opacity:.75}}@keyframes float{50%{transform:translateY(-9px)}}@keyframes shine{to{left:155%}}
+@media(min-width:768px){
+  nav{padding:16px 48px}.hero{padding-top:130px}.grid{grid-template-columns:repeat(3,1fr)}.stats{grid-template-columns:repeat(4,1fr)}.prices{grid-template-columns:repeat(3,1fr)}.reviews{grid-template-columns:repeat(3,1fr)}.section{padding:90px 48px}.btn-wrap,.badges{max-width:460px}
 }
 </style>
 </head>
-
 <body>
+<nav>
+  <a class="logo" href="#"><span class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 00-4 0M14 10V4a2 2 0 00-4 0v2M10 10.5V6a2 2 0 00-4 0v8"/><path d="M18 11a2 2 0 114 0v3a8 8 0 01-8 8h-2c-2.8 0-4.5-.86-6-2.34l-3.6-3.6a2 2 0 112.84-2.82L7 15"/></svg></span><span class="logo-text">PalmScan<span>.ai</span></span></a>
+  <button class="menu" aria-label="Menu"><i></i></button>
+</nav>
 
-<div class="bg"></div>
+<section class="hero">
+  <div class="stars"></div>
+  <div class="tag">☆ AI Powered Palm Reading</div>
+  <h1>Discover Your<br><span class="accent">Destiny Today</span></h1>
+  <p class="sub">Through your palm in <strong>10 seconds</strong></p>
 
-<div class="container">
+  <div class="hand-area">
+    <div class="ring"></div><div class="ring2"></div><div class="glow"></div>
+    <div class="astro a1">☽</div><div class="astro a2">☀</div><div class="astro a3">☽★</div><div class="astro a4">♀</div><div class="astro a5">♃</div><div class="astro a6">♄</div>
+    <div class="hand">
+      <div class="br tl"></div><div class="br tr"></div><div class="br bl"></div><div class="br br2"></div><div class="scanline"></div>
+      <svg viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f1c3a2"/><stop offset="1" stop-color="#b86f4d"/></linearGradient><filter id="g"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path d="M65 240 C42 228 30 200 33 165 L37 80 C38 65 48 57 60 60 C63 47 73 41 85 46 C88 33 100 28 111 35 C115 22 129 21 136 34 L144 34 C156 32 164 43 162 57 L158 150 C172 156 180 170 176 188 L168 228 C160 252 134 264 105 260 C86 258 73 251 65 240Z" fill="url(#skin)" opacity=".88" stroke="rgba(255,220,195,.55)" stroke-width="1.2"/>
+        <path d="M60 60 L56 20 C55 10 63 5 70 8 C77 11 79 18 78 28 L80 62M85 46 L83 14 C82 4 91 0 99 3 C107 6 108 15 107 25 L108 50M111 35 L109 10 C108 0 118 -2 125 2 C132 6 133 14 132 24 L133 38M136 34 L135 18 C135 9 143 6 149 10 C155 14 156 22 155 32 L156 38" fill="rgba(241,195,162,.75)" stroke="rgba(255,220,195,.45)" stroke-width="1"/>
+        <path d="M82 220 C72 185 70 148 75 105 C77 85 82 72 90 62M58 118 C80 110 102 112 132 106M62 140 C88 132 112 135 140 130M108 225 C107 190 106 155 108 118 C109 95 112 76 115 62" stroke="#00ff88" stroke-width="1.55" opacity=".92" fill="none" filter="url(#g)"/>
+        <circle cx="82" cy="220" r="4" fill="#00ff88"/><circle cx="108" cy="225" r="4" fill="#00ff88"/><circle cx="58" cy="118" r="3.5" fill="#00ff88"/><circle cx="132" cy="106" r="3.5" fill="#00ff88"/>
+      </svg>
+    </div>
+  </div>
 
-<h1>PalmScan AI</h1>
+  <p class="desc">AI analyzes your palm lines and creates a personalized future scenario for love, personality and success.</p>
+  <div class="btn-wrap">
+    <button class="scan-btn open-camera"><span class="cam-icon">📸</span><span><span class="btn-main">Start Scan</span><span class="btn-sub">Scan your palm</span></span></button>
+    <div class="social"><div class="faces"><span class="face f1">👩</span><span class="face f2">👨</span><span class="face f3">👩</span><span class="face f4">👨</span><span class="face f5">👩</span></div><span>Join today <strong>10,000+</strong> people<br>around the world</span></div>
+    <div class="badges">
+      <div class="badge">🛡️<b>100%</b><span>CONFIDENTIAL</span></div><div class="badge">🧠<b>AI</b><span>TECHNOLOGY</span></div><div class="badge">⚡<b>FAST</b><span>10 SECONDS</span></div><div class="badge">🔒<b>SECURE</b><span>PRIVACY FIRST</span></div>
+    </div>
+  </div>
+</section>
 
-<p>Your future generated in seconds</p>
+<section class="section alt">
+  <div class="label">How It Works</div><h2>3 Steps To<br><span class="accent">Your Destiny</span></h2>
+  <div class="step"><div class="num">01</div><div><h3>📸 Scan Your Palm</h3><p>Hold your hand up to the camera. PalmScan creates a visual palm pattern map in seconds.</p></div></div>
+  <div class="step"><div class="num">02</div><div><h3>🧠 AI Analysis</h3><p>AI reads palm geometry, life line, heart line, fate line and emotional patterns.</p></div></div>
+  <div class="step"><div class="num">03</div><div><h3>🔮 Get Your Report</h3><p>Receive a personalized destiny report with love, personality, timing and future scenarios.</p></div></div>
+</section>
 
-<div class="scan">
-<div class="line"></div>
+<section class="section">
+  <div class="label">Features</div><h2>Everything Your<br><span class="accent">Future Needs</span></h2>
+  <div class="grid">
+    <div class="card"><span class="emoji">🫱</span><h3>Palm Identity Scan</h3><p>Encrypted palm pattern map with left and right hand comparison.</p></div>
+    <div class="card"><span class="emoji">💞</span><h3>Relationship Compatibility</h3><p>Dual palm sync for couples with emotional resonance insights.</p></div>
+    <div class="card"><span class="emoji">⭐</span><h3>Astrology Fusion</h3><p>Zodiac and birth-date alignment fused with your palm scenario.</p></div>
+    <div class="card"><span class="emoji">😊</span><h3>Emotion Snapshot</h3><p>Daily emotional check-ins and weekly trend summaries.</p></div>
+    <div class="card"><span class="emoji">🔮</span><h3>Fortune Engine</h3><p>Personal future scenarios, timing windows and unlocked reports.</p></div>
+    <div class="card"><span class="emoji">👩</span><h3>AI Advisor</h3><p>A conversational AI guide with memory continuity and voice-ready flow.</p></div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="label">Platform Scale</div><h2>Built For<br><span class="accent">Global Scale</span></h2>
+  <div class="stats">
+    <div class="stat"><b>1–3s</b><span>Scan Speed</span></div>
+    <div class="stat"><b>AI</b><span>Confidence Score</span></div>
+    <div class="stat"><b>50+</b><span>Languages</span></div>
+    <div class="stat"><b>100M</b><span>Users Scale</span></div>
+    <div class="stat"><b>12</b><span>Cloud Regions</span></div>
+    <div class="stat"><b>5K</b><span>Palm Map Points</span></div>
+    <div class="stat"><b>99.9%</b><span>Target Uptime</span></div>
+    <div class="stat"><b>🔒</b><span>Privacy First</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="label">Reviews</div><h2>People Love<br><span class="accent">PalmScan</span></h2>
+  <div class="reviews">
+    <div class="review"><div class="stars">★★★★★</div><p>"The personality reading felt incredibly personal. I unlocked the full report immediately."</p><div class="user">@ALEX_K · NEW YORK</div></div>
+    <div class="review"><div class="stars">★★★★★</div><p>"We tried the couple scan together. The compatibility report described our dynamic perfectly."</p><div class="user">@MISHA_V · LONDON</div></div>
+    <div class="review"><div class="stars">★★★★★</div><p>"The astrology fusion and palm reading made the monthly forecast feel addictive."</p><div class="user">@PRIYA_M · BANGALORE</div></div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="label">Pricing</div><h2>Choose Your<br><span class="accent">Tier</span></h2>
+  <div class="prices">
+    <div class="price"><div class="tier">Free Scan</div><div class="amount">$0</div><p>Forever free</p><ul><li>1 palm scan / day</li><li>Basic life line reading</li><li>Personality overview</li><li>Limited AI advisor</li></ul><a href="#">Start Free</a></div>
+    <div class="price featured"><div class="tier">Premium</div><div class="amount">$9<small>/mo</small></div><p>Apple Pay · Google Pay</p><ul><li>Unlimited palm scans</li><li>Full destiny reports</li><li>Relationship compatibility</li><li>Astrology integration</li><li>AI advisor — unlimited</li><li>Cloud history archive</li></ul><a href="#">Unlock Premium</a></div>
+    <div class="price"><div class="tier">Oracle</div><div class="amount">$29<small>/mo</small></div><p>Full platform access</p><ul><li>Everything in Premium</li><li>Extended analytics</li><li>20-year memory depth</li><li>AR visualization layer</li><li>Priority processing</li></ul><a href="#">Go Oracle</a></div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Your Future Is<br>In Your <span class="accent">Hands</span></h2>
+  <p>Scan your palm. Unlock your destiny. It takes 10 seconds.</p>
+  <div class="btn-wrap" style="margin:auto"><button class="scan-btn open-camera"><span class="cam-icon">📸</span><span><span class="btn-main">Scan My Palm Free</span><span class="btn-sub">No account needed</span></span></button></div>
+</section>
+
+<footer>
+  <a class="logo" href="#"><span class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="1.8"><path d="M18 11V6a2 2 0 00-4 0M14 10V4a2 2 0 00-4 0v2M10 10.5V6a2 2 0 00-4 0v8"/><path d="M18 11a2 2 0 114 0v3a8 8 0 01-8 8h-2c-2.8 0-4.5-.86-6-2.34l-3.6-3.6a2 2 0 112.84-2.82L7 15"/></svg></span><span class="logo-text">PalmScan<span>.ai</span></span></a>
+  <p>AI palm intelligence platform. Destiny, personality and relationship scenarios powered by AI. Part of the Brainli™ ecosystem.</p>
+  <p>press@brainli.com · Built to Unite Inc. · New York · Jerusalem</p>
+  <div class="footgrid"><div><h4>Product</h4><ul><li>Palm Scanner</li><li>AI Advisor</li><li>Compatibility</li><li>Fortune Engine</li></ul></div><div><h4>Legal</h4><ul><li>Privacy Policy</li><li>Terms of Service</li><li>Biometric Policy</li><li>Contact</li></ul></div></div>
+  <div class="copy">© 2026 PalmScan.ai™ — Brainli™ Ecosystem · www.PalmScan.ai</div>
+</footer>
+
+<div class="camera-modal" id="cameraModal">
+  <div class="camera-top"><span><b>PalmScan.ai</b> · Align your palm</span><button class="close" id="closeCamera">Close</button></div>
+  <div class="camera-view"><video id="video" autoplay playsinline></video><div class="guide"></div><div class="result" id="result"><h2>Scan Complete</h2><p>Your palm pattern is ready.</p><br><button class="snap" onclick="location.href='#pricing'">Unlock Full Report</button></div></div>
+  <div class="camera-bottom"><button class="snap" id="snap">Capture Palm</button></div>
 </div>
 
-<a class="button" href="#">
-SCAN MY PALM
-</a>
-
-<div class="small">
-AI destiny experience
-</div>
-
-</div>
-
+<script>
+const modal=document.getElementById('cameraModal'), video=document.getElementById('video'), result=document.getElementById('result');
+let stream=null;
+async function openCamera(){
+  modal.classList.add('active'); result.classList.remove('active'); video.style.display='block';
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});
+    video.srcObject=stream;
+  }catch(e){
+    alert('Camera permission is required to scan your palm.');
+  }
+}
+function closeCamera(){
+  modal.classList.remove('active');
+  if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
+}
+document.querySelectorAll('.open-camera').forEach(b=>b.addEventListener('click',openCamera));
+document.getElementById('closeCamera').addEventListener('click',closeCamera);
+document.getElementById('snap').addEventListener('click',()=>{
+  video.style.display='none'; result.classList.add('active');
+});
+</script>
+</body>
+</html>
 </body>
 </html>
