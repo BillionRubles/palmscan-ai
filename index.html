@@ -275,7 +275,19 @@ footer h4{color:var(--green);font-size:12px;letter-spacing:.18em;text-transform:
 
 <div class="camera-modal" id="cameraModal">
   <div class="camera-top"><span><b>PalmScan.ai</b> · Align your palm</span><button class="close" id="closeCamera">Close</button></div>
-  <div class="camera-view"><video id="video" autoplay playsinline></video><div class="guide"></div><div class="result" id="result"><h2>Scan Complete</h2><p>Your palm pattern is ready.</p><br><button class="snap" onclick="location.href='#pricing'">Unlock Full Report</button></div></div>
+  <div class="camera-view"><video id="video" autoplay playsinline>
+    <div class="result-box" id="resultBox" style="display:none;">
+
+<h2>Scan Complete</h2>
+
+<p>Your palm pattern is ready.</p>
+
+<button class="unlock-btn">
+  Unlock Full Report
+</button>
+
+</div>
+  </video><div class="guide"></div><div class="result" id="result"><h2>Scan Complete</h2><p>Your palm pattern is ready.</p><br><button class="snap" onclick="location.href='#pricing'">Unlock Full Report</button></div></div>
   <div class="camera-bottom"><button class="snap" id="snap">Capture Palm</button></div>
 </div>
 
