@@ -13,6 +13,44 @@
   --text:#fff;--dim:rgba(255,255,255,.58);--line:rgba(0,255,136,.18);
   --glow:rgba(0,255,136,.34);--skin:#d39a73;--skin2:#f1c3a2;
 }
+  .result-box{
+  position:absolute;
+  inset:0;
+  margin:auto;
+  width:82%;
+  max-width:360px;
+  height:max-content;
+  background:rgba(0,0,0,0.92);
+  border:2px solid #00ff88;
+  border-radius:28px;
+  padding:34px 20px;
+  text-align:center;
+  box-shadow:0 0 42px rgba(0,255,136,0.55);
+  z-index:999;
+}
+
+.result-box h2{
+  font-family:'Anton',sans-serif;
+  font-size:42px;
+  color:#00ff88;
+  margin-bottom:14px;
+}
+
+.result-box p{
+  color:white;
+  font-size:18px;
+  margin-bottom:26px;
+}
+
+.unlock-btn{
+  background:#00ff88;
+  color:black;
+  border:none;
+  padding:16px 28px;
+  border-radius:18px;
+  font-size:18px;
+  font-weight:900;
+}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;overflow-x:hidden}
 body::before{
